@@ -1,0 +1,79 @@
+<!--Store.html-->
+
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+
+    body {
+    background-color: #555555; /* Grey background color */
+    }
+
+    .black-card {
+        background-color: black;
+        color: white; /* Change text color to white for better visibility */
+    }
+    .btn-primary {
+        background-color: #ffc107; /* Primary button color */
+        border-color: #ffc107; /* Border color */
+    }
+    .btn-secondary {
+        background-color: #ffca28; /* Secondary button color */
+        border-color: #ffca28; /* Border color */
+    }
+    .card-container {
+        background-color: #343a40; /* Dark grey background color */
+        padding: 20px; /* Add padding for better spacing */
+    }
+
+
+</style>
+
+<div class="container justify-content-center">
+    <div class="row">
+        <div class="col-md-8">
+            <form id="search-form1" action="{% url 'search' %}" method="POST">
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control input-text" placeholder="Search products...." name="query1" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-warning btn-lg" type="submit"><i class="fa fa-search"></i>search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<div class="card-container"> <!-- Container for cards -->
+    <div class="row">
+        {% for AmazonTb in store %}
+        <div class="col-md-4">
+            <div class="card mb-3 black-card" style="max-width: 600px; height: 350px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ AmazonTb.imglink }}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ AmazonTb.name }}</h5>
+                            <h4 class="card-text">Price: <strong>{{ AmazonTb.price }}</strong></h4>
+                            <p class="card-text"></p>
+                            <!-- Add buttons here -->
+<!--                            <button id="compareButton" class="btn btn-primary">Compare</button>-->
+
+
+<!--                            <button class="btn btn-secondary">Track </button>-->
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

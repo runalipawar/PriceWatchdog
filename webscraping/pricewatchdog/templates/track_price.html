@@ -1,0 +1,65 @@
+<!-- track_price.html -->
+
+{% extends 'store.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .dark-grey-box {
+        background-color: #4a4a4a; /* Use your desired shade of dark gray */
+        border: 1px solid #333; /* Add border for better visibility */
+        padding: 15px; /* Add padding for spacing */
+        margin-bottom: 15px; /* Add margin for separation between elements */
+        color: white; /* Set font color to white */
+    }
+</style>
+
+<div class="container justify-content-center">
+    <div class="row">
+        <form id="search-form1" action="{% url 'track_price' %}" method="POST">
+            {% csrf_token %}
+            <div class="col-md-8">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control input-text" placeholder="Search products...." name="query1"
+                           aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-warning btn-lg" type="submit"><i class="fa fa-search"></i>search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--<button id="compareButton" class="btn btn-warning" type="submit" action="{% url 'track_price1' %}">Track Price</button>-->
+
+<div class="container justify-content-center">
+    <div class="row">
+        {% if search_results %}
+        <form action="{% url 'track_price1' %}" method="POST" class="my-4">
+            {% csrf_token %}
+            <div class="list-group">
+                 <button id="compareButton" class="btn btn-warning" type="submit" action="{% url 'track_price1' %}">Track Price</button>
+                <hr>
+                {% for result in search_results %}
+                <label class="list-group-item d-flex align-items-center dark-grey-box">
+                    <!-- Added dark-grey-box class -->
+                    <input type="radio" name="selected_product" value="{{ result.name }}" class="mr-2">
+                    <span>{{ result.name }}</span>
+                </label>
+                {% endfor %}
+            </div>
+<!--           -->
+
+            <!--            <button type="submit" class="btn btn-primary mt-3">Track Price</button>-->
+        </form>
+        {% endif %}
+    </div>
+</div>
+
+
+<script src="{% static 'display.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+
+{% endblock %}

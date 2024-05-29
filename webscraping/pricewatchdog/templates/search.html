@@ -1,0 +1,102 @@
+{% extends 'store.html' %}
+{% load static %}
+{% block content %}
+<!-- Example button to trigger redirect to compare2 page -->
+<style>
+   body {
+    background-color: #555555; /* Grey background color */
+    }
+
+    .black-card {
+        background-color: black;
+        color: white; /* Change text color to white for better visibility */
+    }
+    .btn-primary {
+        background-color: #ffc107; /* Primary button color */
+        border-color: #ffc107; /* Border color */
+    }
+    .btn-secondary {
+        background-color: #ffca28; /* Secondary button color */
+        border-color: #ffca28; /* Border color */
+    }
+    .card-container {
+        background-color: #343a40; /* Dark grey background color */
+        padding: 20px; /* Add padding for better spacing */
+    }
+</style>
+
+
+<div class="container justify-content-center">
+    <div class="row">
+        <form id="search-form1" action="{% url 'search' %}" method="POST">
+            {% csrf_token %}
+            <div class="col-md-8">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control input-text" placeholder="Search products...." name="query1" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-warning btn-lg" type="submit"><i class="fa fa-search"></i>search</button>
+                        <div id="search-results1"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<button id="compareButton" class="btn btn-warning">Compare Price</button> <!-- Added btn-warning class for yellow color -->
+
+<hr>
+<div class="container"style="background-color: #555555;"> <!-- Set background color to grey -->
+    <div class="row">
+        {% if products %}
+        {% for product1 in products %}
+        <div class="col-md-12 mx-auto mb-4"> <!-- Adjust column width as needed -->
+            <div class="card grey text-center w-100"> <!-- Added w-100 class for card width -->
+                <div class="row">
+                    <div class="col-md-4"> <!-- Adjust column width for the image -->
+                        <img src="{{ product1.imglink }}" class="card-img-left" alt="..." style="width: 600px;"> <!-- Set the width of the image to 600px -->
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <div class="text-section">
+                                <h5 class="card-title fw-bold">{{ product1.name }}</h5>
+                            </div>
+                            <div class="cta-section">
+                                <div>{{ product1.price }}</div>
+                                <a href="#" class="btn btn-warning" onclick="addToComparison('{{ product1.id }}')">Add to Comparison</a> <!-- Changed btn-light to btn-warning for yellow color -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        {% if products2 %}
+        {% for product2 in products2 %}
+        <div class="col-md-12 mx-auto mb-4"> <!-- Adjust column width as needed -->
+            <div class="card grey text-center w-100"> <!-- Added w-100 class for card width -->
+                <div class="row">
+                    <div class="col-md-4"> <!-- Adjust column width for the image -->
+                        <!-- Other product details -->
+                        <button onclick="addToComparison('{{ product2.id }}')" class="btn btn-warning">Add to Comparison</button> <!-- Changed btn-light to btn-warning for yellow color -->
+                        <h6>{{product2.name}}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+<script src="{% static 'display.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'main.css' %}"> <!-- Link to your CSS file -->
+<style>
+    .grey {
+        background-color: grey;
+        color: white; /* Change text color to white for better visibility */
+    }
+</style>
+{% endblock %}
